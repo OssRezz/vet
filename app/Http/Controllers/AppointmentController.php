@@ -124,6 +124,7 @@ class AppointmentController extends Controller
     public function update(Request $request, Modal $modal, appointments $cita)
     {
         $actualTime = date('h:i'); //hora actual
+        $date = date('Y-m-d'); //hora actual
         $listAppointmentById = appointments::where('id', $request->id)->get();
         foreach ($listAppointmentById as $value) {
             $name = $value['name'];
@@ -132,9 +133,11 @@ class AppointmentController extends Controller
             $petType = $value['petType'];
             $document = $value['document'];
             $horaCita = $value['appointmentTime'];
+            $fechaCita = $value['appointmentDate'];
         }
 
         //Hora de la cita a minutos
+        $horaCita = date("h:i", strtotime($horaCita));
         $horaCitaArray = explode(":", $horaCita);
         $minutosCita = ($horaCitaArray[0] * 60) + $horaCitaArray[1];
 
@@ -154,9 +157,7 @@ class AppointmentController extends Controller
         $cita->appointmentDate = $request->date;
         $cita->appointmentTime = $request->time;
 
-        if ($minutosCita < $minutosActual) { //Si la hora de la cita es menor a la hora actual no permitira modificarla
-            $modal->modalAlerta("text-warning", "Information", "This appointment has been done and it can't be modify");
-        } else if ($timeToUpdate <= 120) { //Si falta menos de dos horas para la cita, no permitira modificarla
+        if ($date === $fechaCita && $timeToUpdate <= 120) { //Si falta menos de dos horas para la cita, no permitira modificarla
             $modal->modalAlerta("text-warning", "Information", "Is less than two hours for the appointment, it can't be modify");
         } else { //De resto permitira modificar la cita
             if ($cita->update()) {

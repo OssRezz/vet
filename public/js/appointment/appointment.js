@@ -82,6 +82,7 @@ $(function () {
             });
         } else if (e.target.id === "btn-update-appointment") {
             const id = e.target.value;
+            $("#btn-update-appointment").attr("disabled", true);
             const date = $("#appointmentDate").val();
             const time = $("#appointmentTime").val();
             $.ajax({
@@ -99,6 +100,7 @@ $(function () {
                 },
                 success: function (result) {
                     $("#response").html(result);
+                    $("#btn-update-appointment").attr("disabled", false);
                 },
             });
         }
