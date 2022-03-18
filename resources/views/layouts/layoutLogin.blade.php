@@ -18,6 +18,7 @@
 </head>
 
 <body class="index">
+
     @yield('content')
 
 

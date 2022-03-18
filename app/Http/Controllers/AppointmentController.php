@@ -87,7 +87,81 @@ class AppointmentController extends Controller
 
             $modal->table("text-primary", "Informacion", $contenidoModal);
         } else {
-            $modal->modalInformativa('text-warning', 'Informacion', "Date input is required");
+            $modal->modalInformativa('text-warning', 'Informacion', "Select a date");
+        }
+    }
+
+    public function modalUpdate(Modal $modal, Request $request)
+    {
+        $listAppointmentById = appointments::where('id', "=", $request->id)->get();
+        foreach ($listAppointmentById as $value) {
+            $fechaCita = $value['appointmentDate'];
+            $horaCita = $value['appointmentTime'];
+        }
+        //
+        $contenidoModal = "                <div class='row g-3'>";
+        $contenidoModal .= "                  <div class='col-12'>";
+        $contenidoModal .= "                    <div class='form-floating'>";
+        $contenidoModal .= "                      <input  id='appointmentDate' type='date' value='$fechaCita' class='form-control' placeholder='Appointment time'>";
+        $contenidoModal .= "                      <label for=''>Appointment date <b class='text-danger'>*</b></label>";
+        $contenidoModal .= "                    </div>";
+        $contenidoModal .= "                  </div>";
+        $contenidoModal .= "                  <div class='col-12'>";
+        $contenidoModal .= "                    <div class='form-floating'>";
+        $contenidoModal .= "                      <input id='appointmentTime' type='time' value='$horaCita' class='form-control' placeholder='Appointment time'>";
+        $contenidoModal .= "                      <label for=''>Appointment time <b class='text-danger'>*</b></label>";
+        $contenidoModal .= "                    </div>";
+        $contenidoModal .= "                  </div>";
+        //
+        $contenidoModal .= "                <div class='d-grid'>";
+        $contenidoModal .= "                <button class='btn btn-outline-primary' value='$request->id' id='btn-update-appointment'>Update appointment</button>";
+        $contenidoModal .= "                </div>";
+        $contenidoModal .= "                </div>";
+
+        $modal->modalAlerta("text-primary", "Information", $contenidoModal);
+    }
+
+    public function update(Request $request, Modal $modal, appointments $cita)
+    {
+        $actualTime = date('h:i'); //hora actual
+        $listAppointmentById = appointments::where('id', $request->id)->get();
+        foreach ($listAppointmentById as $value) {
+            $name = $value['name'];
+            $lastName = $value['lastName'];
+            $petName = $value['petName'];
+            $petType = $value['petType'];
+            $document = $value['document'];
+            $horaCita = $value['appointmentTime'];
+        }
+
+        //Hora de la cita a minutos
+        $horaCitaArray = explode(":", $horaCita);
+        $minutosCita = ($horaCitaArray[0] * 60) + $horaCitaArray[1];
+
+        //Hora actual a minutos
+        $horaActualArray = explode(":", $actualTime);
+        $minutosActual = ($horaActualArray[0] * 60) + $horaActualArray[1];
+
+        //Tiempo restante para la cita
+        $timeToUpdate = $minutosCita - $minutosActual;
+
+        $cita = appointments::find($request->id);
+        $cita->document = $document;
+        $cita->name = $name;
+        $cita->lastName = $lastName;
+        $cita->petName = $petName;
+        $cita->petType = $petType;
+        $cita->appointmentDate = $request->date;
+        $cita->appointmentTime = $request->time;
+
+        if ($minutosCita < $minutosActual) { //Si la hora de la cita es menor a la hora actual no permitira modificarla
+            $modal->modalAlerta("text-warning", "Information", "This appointment has been done and it can't be modify");
+        } else if ($timeToUpdate <= 120) { //Si falta menos de dos horas para la cita, no permitira modificarla
+            $modal->modalAlerta("text-warning", "Information", "Is less than two hours for the appointment, it can't be modify");
+        } else { //De resto permitira modificar la cita
+            if ($cita->update()) {
+                $modal->modalAlerta("text-primary", "Information", "Appointment modified successfully");
+            }
         }
     }
 }

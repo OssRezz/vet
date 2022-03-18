@@ -56,7 +56,7 @@ class Modal
         echo "      <div class='modal-body'>";
 
         echo "      <div class='table-responsive'>";
-        echo "<table class='table table-hover table-sm' id='tableSeguimiento' class='display' style='width: 100%'>";
+        echo "<table class='table table-hover table-sm' id='table' class='display' style='width: 100%'>";
         echo  "<thead>";
         echo  "  <tr>";
         echo  "    <th>Person</th>";
@@ -78,5 +78,6 @@ class Modal
         echo "</div>";
         echo "<script>$('#modalTable').modal('show')</script>";
         echo "<script>$('#close').click(function(){location.reload()});</script>";
+        echo  "<script>$('#table').DataTable({ responsive: true, order: [[0, 'desc']] });</script>";
     }
 }

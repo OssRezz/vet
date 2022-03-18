@@ -2,7 +2,7 @@
 @section('title', 'Appointments')
 @section('content')
     <div class="container">
-        <div class="row my-5">
+        <div class="row my-4">
             <div class="col-12 col-lg-4 mb-3">
                 <div class="card shadow-sm">
                     <div class="card-header"><i class="fas fa-book-medical text-primary"></i> <b>Appointment form</b>
@@ -48,7 +48,26 @@
                             </div>
 
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-outline-primary">Add appointment</button>
+                                <button id="btnAdd" type="submit" class="btn btn-outline-primary">Add appointment</button>
+                            </div>
+
+                            <div class=" d-flex justify-content-center">
+                                <div id="spinnerInsert">
+                                    <div class="sk-circle animate__animated animate__fadeIn">
+                                        <div class="sk-circle1 sk-child"></div>
+                                        <div class="sk-circle2 sk-child"></div>
+                                        <div class="sk-circle3 sk-child"></div>
+                                        <div class="sk-circle4 sk-child"></div>
+                                        <div class="sk-circle5 sk-child"></div>
+                                        <div class="sk-circle6 sk-child"></div>
+                                        <div class="sk-circle7 sk-child"></div>
+                                        <div class="sk-circle8 sk-child"></div>
+                                        <div class="sk-circle9 sk-child"></div>
+                                        <div class="sk-circle10 sk-child"></div>
+                                        <div class="sk-circle11 sk-child"></div>
+                                        <div class="sk-circle12 sk-child"></div>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -71,7 +90,7 @@
                             appointments</b></div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="tableAppointment">
                                 <thead>
                                     <tr>
                                         <th>Person</th>
@@ -91,9 +110,11 @@
                                         <td>{{ $item->petName }}</td>
                                         <td class="text-center">{{ $item->appointmentDate }}</td>
                                         <td class="text-center">{{ $item->appointmentTime }}</td>
-                                        <td class="text-center"><button id="{{ $item->id }}"
-                                                class="btn btn-outline-primary btn-sm"><i
-                                                    class="fas fa-edit"></i></button></td>
+                                        <td class="text-center">
+                                            <button id="btn-edit" value="{{ $item->id }}"
+                                                class="btn btn-outline-primary btn-sm"><i class="fas fa-edit"
+                                                    style="pointer-events: none;"></i></button>
+                                        </td>
                                     </tr>
                                     @endforeach
 
@@ -109,5 +130,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/appointment/create.js') }}"></script>
+    <script src="{{ asset('js/appointment/appointment.js') }}"></script>
 @endsection
