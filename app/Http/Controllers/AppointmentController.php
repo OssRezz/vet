@@ -78,7 +78,7 @@ class AppointmentController extends Controller
                 $contenidoModal .= "<td class='text-center'>$appointmentDate</td>";
                 $contenidoModal .= "<td class='text-center'>$appointmentTime</td>";
                 $contenidoModal .= "<td class='text-center'>";
-                $contenidoModal .= "<button value='$id' class='btn btn-outline-primary btn-sm'><i class='fas fa-edit'></i></button>";
+                $contenidoModal .= "<button value='$id'  id='btn-edit' class='btn btn-outline-primary btn-sm'><i class='fas fa-edit' style='pointer-events: none;'></i></button>";
                 $contenidoModal .= "</td>";
                 $contenidoModal .= "</tr>";
             }
