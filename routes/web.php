@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\LoginController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -27,3 +28,7 @@ Route::post('appointment/create', [AppointmentController::class, 'create'])->nam
 Route::post('appointment/searchByDate', [AppointmentController::class, 'searchByDate'])->name('appointment/searchByDate');
 Route::post('appointment/modalUpdate', [AppointmentController::class, 'modalUpdate'])->name('appointment/modalUpdate');
 Route::put('appointment/update', [AppointmentController::class, 'update'])->name('appointment/update');
+
+
+Route::get('calendar', [CalendarController::class, 'view'])->name('calendar');
+Route::post('calendar/events', [CalendarController::class, 'events'])->name('calendar/events');

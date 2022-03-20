@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Custom\Modal;
 use App\Models\appointments;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Spatie\GoogleCalendar\Event;
+
 
 class AppointmentController extends Controller
 {
@@ -43,6 +46,15 @@ class AppointmentController extends Controller
                 $citas->appointmentTime = $request->time;
 
                 if ($citas->save()) {
+
+                    $startTime = Carbon::parse($request->date . ' ' . $request->time);
+                    $endTime = (clone $startTime)->addHour();
+                    $appointmentGoogle = $request->name . ' ' . $request->lastName . ' - ' . $request->document;
+                    Event::create([
+                        'name' => $appointmentGoogle,
+                        'startDateTime' => $startTime,
+                        'endDateTime' => $endTime
+                    ]);
                     $modal->modalAlerta('text-primary', 'Informacion', "Appointment has been create successfully");
                 }
             } else {

@@ -20,6 +20,12 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" />
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
+    {{-- calendar --}}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/locales-all.js"></script>
+
+
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" />
     <title>@yield('title')</title>
@@ -31,9 +37,31 @@
     <div class="container-fluid px-0">
         <nav class="navbar shadow-sm bg-white">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <img src="{{ asset('img/paws.png') }}" alt="" width="40" height="40">
-                </a>
+
+
+                {{-- Menu --}}
+                <div class="d-flex justify-content-start">
+                    <a class="navbar-brand" href="#">
+                        <img src="{{ asset('img/paws.png') }}" alt="" width="40" height="40">
+                    </a>
+
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item border-0 px-1">
+                            <a class="btn btn-outline-dark border-0 {{ Request::is('appointment') ? 'active' : '' }}"
+                                href="{{ url('appointment') }}"><i class="fas fa-book-medical"></i>
+                                Appointments</a>
+                        </li>
+                        <li class="list-group-item border-0 px-1">
+                            <a class="btn btn-outline-dark border-0 {{ Request::is('calendar') ? 'active' : '' }}"
+                                href="{{ url('calendar') }}"><i class="fas fa-calendar"></i>
+                                Calendar</a>
+                        </li>
+                    </ul>
+                </div>
+
+
+                {{-- finMenu --}}
+
                 <div class="div d-flex justify-content-end g-3 align-items-center">
                     <img src="{{ asset('img/clinic.png') }}" alt="Avatar" class="avatar"
                         style="height: 40px; width: 40px;" />
